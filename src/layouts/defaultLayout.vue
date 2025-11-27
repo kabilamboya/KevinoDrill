@@ -1,15 +1,18 @@
 <template>
-  <div class="d-flex flex-column min-vh-100">
-    <!-- Re-emit the event to App.vue -->
-    <Navbar @open-estimate="$emit('open-estimate')" />
+  <div class="layout">
+    <Navbar @open-estimate="showModal = true" />
 
-    <main class="flex-grow-1">
+    <main>
       <slot />
     </main>
 
     <Footer />
 
-    <!-- Keep ONLY scroll-to-top button -->
+    <EstimateModal
+      :show="showModal"
+      @close="showModal = false"
+    />
+
     <button
       v-show="showButton"
       @click="scrollToTop"
@@ -24,10 +27,9 @@
 import { ref, onMounted, onUnmounted } from "vue"
 import Navbar from "@/components/navBar.vue"
 import Footer from "@/components/footer.vue"
+import EstimateModal from "@/components/gestimate.vue"
 
-// Remove EstimateQuote import — modal belongs in App.vue only
-// import EstimateQuote from "@/components/gestimate.vue"
-
+const showModal = ref(false)
 const showButton = ref(false)
 
 const handleScroll = () => {
@@ -40,17 +42,31 @@ const scrollToTop = () => {
 
 onMounted(() => window.addEventListener("scroll", handleScroll))
 onUnmounted(() => window.removeEventListener("scroll", handleScroll))
-
-// Enable emitting from layout
-defineEmits(['open-estimate'])
 </script>
 
 <style scoped>
-main {
-  padding: 1rem;
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Example styling — tweak as you like */
 .back-to-top {
-  background: green;
-  width: 15px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #0a7a2a;
+  color: white;
+  font-size: 18px;
 }
 </style>
