@@ -146,7 +146,7 @@ const recentProjects = ref([
   {
     id: 2,
     title: "Solar water pump installation",
-    location: "Commissioned by Pekas Ltd",
+    location: "Nairobi county",
     description: "Energy-efficient solar-powered pumping system.",
     testimonial: "Transformed our water accessibility.",
     client: "Pekas Ltd",
