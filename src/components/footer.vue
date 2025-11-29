@@ -1,97 +1,94 @@
 <template>
   <footer class="site-footer" role="contentinfo">
     <div class="footer-wrap">
-      <!-- Brand / About -->
-      <section class="footer-col brand" aria-labelledby="footer-brand">
 
-        <div class="brand-row">
-          <slot name="logo">
-            <span class="brand-mark" aria-hidden="true">💧</span>
-          </slot>
+  <!-- Brand / About -->
+  <section class="footer-col brand" aria-labelledby="footer-brand">
+    <div class="brand-row">
+      <slot name="logo">
+        <span class="brand-mark" aria-hidden="true">💧</span>
+      </slot>
 
-          <div class="brand-meta">
-            <p class="brand-name">{{ companyName }}</p>
-            <p class="brand-tag">Sustainable water solutions you can trust.</p>
-          </div>
-        </div>
-
-        <p class="brand-desc">
-          We provide professional borehole drilling, hydro-surveys, pump installation,
-          testing, and construction services across Kenya — delivering reliable and
-          cost-effective water solutions.
-        </p>
-      </section>
-
-      <!-- Quick Links -->
-      <nav class="footer-col" aria-labelledby="footer-links">
-        <h2 id="footer-links" class="footer-title">Quick Links</h2>
-        <ul class="footer-list" role="list">
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/about">About Us</router-link></li>
-          <li><router-link to="/services">Services</router-link></li>
-          <li><router-link to="/projects">Projects</router-link></li>
-          <li><router-link to="/contact">Contact Us</router-link></li>
-        </ul>
-      </nav>
-
-      <!-- Services -->
-      <nav class="footer-col" aria-labelledby="footer-services">
-        <h2 id="footer-services" class="footer-title">Our Services</h2>
-        <ul class="footer-list" role="list">
-          <li>Borehole Drilling</li>
-          <li>Hydro-geological Survey</li>
-          <li>Pump Supply & Installation</li>
-          <li>Rehabilitation of Boreholes</li>
-          <li>Building & Construction</li>
-          <li>Civil Works</li>
-        </ul>
-      </nav>
-
-      <!-- Contact -->
-      <section class="footer-col" aria-labelledby="footer-contact">
-        <h2 id="footer-contact" class="footer-title">Contact</h2>
-        <address class="contact" itemscope itemtype="https://schema.org/Organization">
-          <meta itemprop="name" :content="companyName" />
-
-          <p class="contact-line">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0zm-9 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
-            <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-              <span itemprop="streetAddress">P.O BOX 82-40100 Paw Akuche</span>,
-              <span itemprop="addressLocality">Along Kisumu Rd, Opp. Torly’s Hotel</span>,
-              <span itemprop="addressCountry">KE</span>
-            </span>
-          </p>
-
-          <p class="contact-line">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M22 16.92v3a2 2 0 0 1-2.18 2C9.48 21.25 2.75 14.52 2.08 4.18A2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.09.74.24 1.47.45 2.17a2 2 0 0 1-.45 2.11L8.59 9.47a14 14 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.7.21 1.43.36 2.17.45A2 2 0 0 1 22 16.92z"/></svg>
-            <a :href="`tel:${mainPhone}`" itemprop="telephone">{{ mainPhone }}</a>
-          </p>
-
-          <p class="contact-line">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v.4l-10 6.25L2 6.4V6a2 2 0 0 1 2-2Zm0 5.2 8 5 8-5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.2Z"/></svg>
-            <a :href="`mailto:${email}`" itemprop="email">{{ email }}</a>
-          </p>
-
-          <!-- Social Icons -->
-          <div class="socials">
-            <a href="#" aria-label="TikTok"><font-awesome-icon :icon="['fab','tiktok']" /></a>
-            <a href="#" aria-label="Facebook"><font-awesome-icon :icon="['fab','facebook-f']" /></a>
-            <a href="#" aria-label="YouTube"><font-awesome-icon :icon="['fab','youtube']" /></a>
-            <a :href="whatsappUrl" aria-label="WhatsApp"><font-awesome-icon :icon="['fab','whatsapp']" /></a>
-          </div>
-        </address>
-      </section>
+      <div class="brand-meta">
+        <p class="brand-name">{{ companyName }}</p>
+        <p class="brand-tag">Sustainable water solutions you can trust.</p>
+      </div>
     </div>
+  </section>
 
-    <!-- Bottom Bar -->
-    <div class="footer-bottom">
-      <p>&copy; {{ year }} {{ companyName }}. All rights reserved.</p>
-      <ul class="bottom-links" role="list">
-        <li><router-link to="/privacy">Privacy</router-link></li>
-        <li><router-link to="/terms">Terms</router-link></li>
-        <li><router-link to="/contact">Contact</router-link></li>
-      </ul>
-    </div>
+
+  <!-- FAQs -->
+  <nav class="footer-col" aria-labelledby="footer-faqs">
+    <h2 id="footer-faqs" class="footer-title">FAQs</h2>
+    <ul class="footer-list" role="list">
+      <li><router-link to="/contact#faq-pricing">Pricing Questions</router-link></li>
+      <li><router-link to="/contact#faq-survey">Hydro Survey FAQs</router-link></li>
+      <li><router-link to="/contact#faq-drilling">Drilling Process</router-link></li>
+      <li><router-link to="/contact#faq-timeline">Project Timelines</router-link></li>
+      <li><router-link to="/contact#faq-payments">Payments & Billing</router-link></li>
+    </ul>
+  </nav>
+
+
+  <!-- Combined Projects + Services Column -->
+  <nav class="footer-col" aria-labelledby="footer-projects">
+    <h2 id="footer-projects" class="footer-title">Featured Projects</h2>
+    <ul class="footer-list" role="list">
+      <li><router-link to="/projects#kisumu-hospital">Kisumu Hospital Well</router-link></li>
+      <li><router-link to="/projects#awendo-factory">Awendo Factory Borehole</router-link></li>
+      <li><router-link to="/projects">View All Projects</router-link></li>
+    </ul>
+
+    <h2 id="footer-services" class="footer-title sub">Top Services</h2>
+    <ul class="footer-list" role="list">
+      <li><router-link to="/services#testing">Yield Testing</router-link></li>
+      <li><router-link to="/services#rehabilitation">Borehole Rehabilitation</router-link></li>
+      <li><router-link to="/services#construction">Construction & Civil Works</router-link></li>
+    </ul>
+  </nav>
+
+
+  <!-- Contact -->
+  <section class="footer-col" aria-labelledby="footer-contact">
+    <h2 id="footer-contact" class="footer-title">Contact</h2>
+
+    <address class="contact" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="name" :content="companyName" />
+
+      <p class="contact-line">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path fill="currentColor" d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0zm-9 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+        <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          <span itemprop="streetAddress">P.O BOX 82-40100 Paw Akuche</span>,
+          <span itemprop="addressLocality">Along Kisumu Rd, Opp. Torly’s Hotel</span>,
+          <span itemprop="addressCountry">KE</span>
+        </span>
+      </p>
+
+      <p class="contact-line">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path fill="currentColor" d="M22 16.92v3a2 2 0 0 1-2.18 2C9.48 21.25 2.75 14.52 2.08 4.18A2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.09.74.24 1.47.45 2.17a2 2 0 0 1-.45 2.11L8.59 9.47a14 14 0 0 0 6 6l1.47-1.47a2 2 0 0 1 2.11-.45c.7.21 1.43.36 2.17.45A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <a :href="`tel:${mainPhone}`" itemprop="telephone">{{ mainPhone }}</a>
+      </p>
+
+      <p class="contact-line">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v.4l-10 6.25L2 6.4V6a2 2 0 0 1 2-2Zm0 5.2 8 5 8-5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.2Z"/>
+        </svg>
+        <a :href="`mailto:${email}`" itemprop="email">{{ email }}</a>
+      </p>
+
+      <div class="socials">
+        <a href="#" aria-label="TikTok"><font-awesome-icon :icon="['fab','tiktok']" /></a>
+        <a href="#" aria-label="Facebook"><font-awesome-icon :icon="['fab','facebook-f']" /></a>
+        <a href="#" aria-label="YouTube"><font-awesome-icon :icon="['fab','youtube']" /></a>
+        <a :href="whatsappUrl" aria-label="WhatsApp"><font-awesome-icon :icon="['fab','whatsapp']" /></a>
+      </div>
+    </address>
+  </section>
+</div>
   </footer>
 </template>
 
@@ -145,6 +142,10 @@ site-footer {
   color: #fff;
 }
 
+.footer-title.sub {
+  margin-top: 18px;
+}
+
 .brand-row {
   display: flex;
   align-items: center;
@@ -170,12 +171,6 @@ site-footer {
 .brand-tag {
   margin: 0;
   font-size: 0.95rem;
-  color: #c7d7f7;
-}
-
-.brand-desc {
-  margin-top: 10px;
-  line-height: 1.6;
   color: #c7d7f7;
 }
 

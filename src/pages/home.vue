@@ -1,43 +1,44 @@
 <template>
   <div class="home-page">
     <!-- ================= HERO WITH SLIDER ================= -->
-<section class="hero" aria-labelledby="hero-heading">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-media">
+        <ImageSlider 
+          :slides="slideArray"
+          :interval="4800"
+        />
+      </div>
 
-  <!-- BACKGROUND MEDIA (Image Slider + Overlay) -->
-  <div class="hero-media">
-    <ImageSlider 
-      :slides="slideArray"
-      :interval="4800"
-    />
-  </div>
+      <div class="hero-content">
+        <h1 id="hero-heading">Elevate projects with our drilling expertise</h1>
 
-  <!-- FOREGROUND CONTENT (Texts + Buttons) -->
-  <div class="hero-content">
-    <h1 id="hero-heading">Elevate projects with our drilling expertise</h1>
+        <p class="hero-subtitle">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0zm-9 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+          <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+            <span itemprop="streetAddress">P.O BOX 82-40100 Paw Akuche</span>,
+            <span itemprop="addressLocality">Along Kisumu Rd, Opp. Torly’s Hotel</span>,
+            <span itemprop="addressCountry">KE</span>
+          </span>
+        </p>
 
-    <p class="hero-subtitle">
-      We deliver end-to-end reliability. From hydrogeological surveys to drilling, 
-      installation, testing, and maintenance.
-    </p>
+        <div class="hero-cta">
+          <a
+            :href="`https://wa.me/${whatsappNumber}`"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-primary btn-lg estimate-btn"
+          >
+            Talk to us on WhatsApp
+          </a>
 
-    <div class="hero-cta">
-      <a
-        :href="`https://wa.me/${whatsappNumber}`"
-        target="_blank"
-        rel="noopener"
-        class="btn btn-primary btn-lg estimate-btn"
-      >
-        Talk to us on WhatsApp
-      </a>
-
-      <router-link to="/services" class="btn btn-outline btn-lg">
-        View our Services
-      </router-link>
-    </div>
-  </div>
-
-</section>
-
+          <router-link to="/services" class="btn btn-orange-outline btn-lg">
+            View our Services
+          </router-link>
+        </div>
+      </div>
+    </section>
 
     <!-- ================= INTRO SECTION ================= -->
     <section class="intro-section section">
@@ -48,45 +49,30 @@
           and solar pump installations. Providing sustainable water solutions for
           communities, industries, and agriculture.
         </p>
-      <ul class="hero-stats">
-          <li><strong>10+ years</strong> experience</li>
-          <li><strong>24/7</strong> support</li>
-          <li><strong>1000+</strong> projects</li>
-        </ul>
-      </div>
 
-      <div class="top-grid">
-        <!-- Top Project -->
-        <div class="card">
-          <h3>Top Ongoing Project</h3>
-          <h4>{{ topProject.title }}</h4>
-          <p>{{ topProject.description }}</p>
-          <small class="client">— {{ topProject.client }}</small>
-        </div>
+        <!-- ⭐ Animated Stats ⭐ -->
+        <div class="hero-stats" ref="statsSection">
+          <div class="stat-card">
+            <span class="number">{{ counters.years }}+</span>
+            <span class="label">years experience</span>
+          </div>
 
-        <!-- Top Service -->
-        <div class="card">
-          <h3>Top Service</h3>
-          <h4>{{ topService.title }}</h4>
-          <p>{{ topService.description }}</p>
-        </div>
+          <div class="stat-card">
+            <span class="number static-number">24/7</span>
+            <span class="label">support</span>
+          </div>
 
-        <!-- Social Updates -->
-        <div class="card">
-          <h3>Social Media Updates</h3>
-          <ul>
-            <li v-for="post in socialPosts" :key="post.id">
-              <p>{{ post.content }}</p>
-              <small class="date">{{ post.date }}</small>
-            </li>
-          </ul>
+          <div class="stat-card">
+            <span class="number">{{ counters.projects }}+</span>
+            <span class="label">projects</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ================= WORKING PROCESS ================= -->
     <section class="working-process section">
-        <h2>Our Working Process</h2>
+      <h2>Our Working Process</h2>
 
       <div class="steps">
         <div class="step">
@@ -112,10 +98,12 @@
     <section class="cta-band" aria-labelledby="cta-heading">
       <div class="cta-inner">
         <h2 id="cta-heading">Ready to start your project?</h2>
-        <p>Get a free, no-obligation estimate in minutes.</p>
-        <button @click="$emit('open-estimate')" class="btn btn-accent btn-lg">
-          Request Estimate
-        </button>
+        <p>Explore our past projects and client testimonials.</p>
+        
+        <router-link to="/projects" class="btn btn-orange-outline btn-lg">
+          Completed Projects
+        </router-link>
+
       </div>
     </section>
   </div>
@@ -126,8 +114,8 @@ import ImageSlider from '@/components/imageSlider.vue'
 import s1 from '@/assets/slides/slide1.jpg'
 import s2 from '@/assets/slides/slide2.jpg'
 import s3 from '@/assets/slides/slide3.jpg'
-
-const slideArray = [s1, s2, s3]
+import s5 from '@/assets/slides/slide5.jpg'
+import s6 from '@/assets/slides/slide6.jpg'
 
 export default {
   name: "Home",
@@ -135,63 +123,52 @@ export default {
 
   data() {
     return {
-      whatsappNumber: "254722146077",
-      slideArray : [s1, s2, s3],
-      /* -----------------------------------------------
-       * CONTENT BLOCKS FROM SCRIPT 2 (Intro + Cards)
-       * ----------------------------------------------- */
-      topProject: {
-        title: "Hydrological Survey & Drilling - Uyoma",
-        description:
-          "Comprehensive groundwater analysis and drilling for sustainable usage in Siaya-Uyoma.",
-        client: "Joash Otieno",
-      },
-      topService: {
-        title: "Borehole Drilling",
-        description:
-          "Reliable access to clean water using advanced equipment and expertise.",
-      },
-      socialPosts: [
-        { id: 1, content: "Completed a 150,000L steel tank in Turkana!", date: "Nov 2025" },
-        { id: 2, content: "Solar pump installation for Pekas Ltd is live.", date: "Oct 2025" },
-      ],
+      whatsappNumber: "254721957386",
+      slideArray: [s1, s2, s3, s5, s6],
 
-      /* -----------------------------------------------
-       * SERVICES + VALUES + ICONS FROM SCRIPT 1
-       * ----------------------------------------------- */
-      services: [
-        { title: "Borehole Drilling", description: "Expert drilling for reliable water access.", icon: "drilling" },
-        { title: "Pump Installation", description: "Professional pump sizing and installation.", icon: "pump" },
-        { title: "Water Testing", description: "Certified testing to ensure water quality.", icon: "testing" },
-        { title: "Hydrogeological Surveys", description: "Evidence-based site evaluation.", icon: "survey" },
-        { title: "Maintenance & Repairs", description: "Preventative care and rapid repairs.", icon: "maintenance" },
-      ],
-
-      values: [
-        { title: "Licensed & Insured", description: "We operate to industry standards with full compliance.", icon: "shield" },
-        { title: "Transparent Pricing", description: "Clear scope, fair rates, and no hidden fees.", icon: "pricing" },
-        { title: "On-Time Delivery", description: "Reliable timelines and professional communication.", icon: "clock" },
-      ],
-
-      icons: {
-        drilling: `...`,   /* (keep original SVGs from your Script 1) */
-        pump: `...`,
-        testing: `...`,
-        survey: `...`,
-        maintenance: `...`,
-        shield: `...`,
-        pricing: `...`,
-        clock: `...`
-      }
+      // Animated counters
+      counters: { years: 1, projects: 1 },
+      hasAnimated: false
     };
+  },
+
+  mounted() {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !this.hasAnimated) {
+        this.startCounters();
+        this.hasAnimated = true;
+      }
+    });
+
+    observer.observe(this.$refs.statsSection);
+  },
+
+  methods: {
+    startCounters() {
+      this.animateCounter("years", 10, 1000);
+      this.animateCounter("projects", 100, 500);
+    },
+
+    animateCounter(key, target, duration) {
+      let start = 1;
+      const range = target - start;
+      const step = Math.ceil(duration / range);
+
+      const timer = setInterval(() => {
+        start++;
+        this.counters[key] = start;
+        if (start >= target) clearInterval(timer);
+      }, step);
+    }
   }
 };
 </script>
 
 <style scoped>
-/* -------------------------------------------------------
-   BASE THEME + HERO STYLES (from Script 1)
-------------------------------------------------------- */
+/* ------------------------------------------------------- */
+/* BASE + HERO */
+/* ------------------------------------------------------- */
+
 .home-page {
   --text: #0f172a;
   --muted: #475569;
@@ -199,10 +176,7 @@ export default {
   --primary-600: #0b5ed7;
   --accent: #ff7f32;
   --surface: #ffffff;
-  --surface-2: #f7f9fc;
 }
-
-/* HERO */
 
 .hero {
   position: relative;
@@ -213,6 +187,13 @@ export default {
   background: #000;
 }
 .hero-media { position: absolute; inset: 0; }
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.6));
+  z-index: 1;
+}
 
 .hero-content {
   position: relative;
@@ -223,136 +204,118 @@ export default {
   max-width: 1100px;
   margin: 0 auto;
 }
-.hero-stat{
-  display: flex;
-}
-.hero-subtitle { color: #e2e8f0; max-width: 760px; margin: 0 auto; }
 
-.hero-cta {
-  margin-top: 2rem;
+/* ------------------------------------------------------- */
+/* STATS */
+/* ------------------------------------------------------- */
+
+.hero-stats {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
   flex-wrap: wrap;
 }
 
-/* PRIMARY BUTTON (WhatsApp) */
-.btn.btn-primary {
-  background: #25d366;
-  color: white;
-  border: none;
-  padding: 14px 24px;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: 0.25s ease;
+.stat-card {
+  background: #ffffff;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid #e5e9f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  text-align: center;
+  width: 160px;
 }
 
-.btn.btn-primary:hover {
-  background: #1ebe5d;
-  transform: translateY(-2px);
+.stat-card .number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: orange !important;
 }
 
-/* OUTLINE BUTTON (Services) */
-.btn.btn-outline {
-  padding: 14px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 12px;
-  border: 2px solid #0d6efd;
-  color: #0d6efd;
-  background: transparent;
-  transition: 0.25s ease;
+.stat-card .label {
+  font-size: 0.9rem;
+  color: #4a5568;
 }
 
-.btn.btn-outline:hover {
-  background: #0d6efd;
-  color: white;
-  transform: translateY(-2px);
-}
-
-/* Mobile fixing */
-@media (max-width: 600px) {
-  .hero-cta {
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-stats {
     flex-direction: column;
-    gap: 12px;
+  }
+  .stat-card {
+    width: 100%;
   }
 }
 
-/* Buttons reused globally */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 18px;
-  font-weight: 600;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: .2s ease;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-outline { border-color: #fff; color: #fff; background: transparent; }
-.btn-accent { background: var(--accent); color: #0f172a; }
+/* ------------------------------------------------------- */
+/* INTRO */
+/* ------------------------------------------------------- */
 
-/* -------------------------------------------------------
-   INTRO + 3 CARDS (from Script 2 but visually modernized)
-------------------------------------------------------- */
-.intro-section .intro-wrapper {
+.intro-section {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.intro-wrapper {
   text-align: center;
   max-width: 900px;
   margin: 0 auto 32px;
   padding: 30px;
 }
 
-.top-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+/* ------------------------------------------------------- */
+/* PROCESS */
+/* ------------------------------------------------------- */
 
-.top-grid .card {
-  padding: 18px;
-  background: var(--surface);
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-  transition: .2s ease;
-}
-.top-grid .card:hover { transform: translateY(-3px); }
-
-/* Social posts */
-.client { display: block; margin-top: 6px; color: #555; font-style: italic; }
-.date { font-size: .85rem; color: #777; }
-
-/* -------------------------------------------------------
-   WORKING PROCESS (Script 2 but restyled)
-------------------------------------------------------- */
 .working-process {
   background: linear-gradient(135deg, var(--primary), var(--primary-600));
   padding: 50px;
   margin-top: 20px;
 }
+
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 18px;
-  margin-top: 20px;
 }
-.step {
-  background: var(--surface);
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-  transition: .2s;
-}
-.step:hover { transform: translateY(-3px); }
 
+/* ------------------------------------------------------- */
 /* CTA BAND */
+/* ------------------------------------------------------- */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 25px;
+}
 .cta-band {
   color: #0056d2;
   text-align: center;
   padding: 40px 20px;
 }
+/* ORANGE OUTLINE BUTTON */
+.btn-orange-outline {
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;        /* rounded corners */
+  background: transparent;
+  border: 2px solid #ff7f32;  /* orange stroke */
+  color: #ff7f32;             /* orange text */
+  transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect */
+.btn-orange-outline:hover {
+  background: #ff7f32;   /* filled orange */
+  color: #ffffff;        /* white text */
+  transform: translateY(-2px);
+}
+
 </style>

@@ -70,7 +70,7 @@
     <div class="container">
       <div class="team-grid">
         <img 
-          src="@/assets/images/teamlead.jpg" 
+          src="@/assets/images/ourTeam.jpg" 
           alt="Kevino Team" 
           class="team-image"
         />
@@ -99,19 +99,19 @@
   </section>
 
   <!-- ================================= -->
-    <!--             VALUES                 -->
+    <!--             WHY US                 -->
     <!-- ================================= -->
-    <section class="section">
-      <h2 class="section-title">Why Choose Us</h2>
-      <p class="section-subtitle">We combine engineering expertise with dependable service.</p>
+    <section class="why-us">
+      <h2 class="why-us-title">Why Choose Us</h2>
+      <p class="why-us-subtitle">We combine engineering expertise with dependable service.</p>
 
-      <ul class="values-grid">
-        <li v-for="(v, i) in values" :key="v.title" class="value-card">
+      <div class="values-grid">
+        <div v-for="(v, i) in values" :key="v.title" class="value-card">
           <div class="circle-icon" v-html="icons[v.icon]"></div>
           <h3>{{ v.title }}</h3>
           <p>{{ v.description }}</p>
-        </li>
-      </ul>
+        </div>
+      </div>
     </section>
 
   <!-- Partners Section -->
@@ -137,7 +137,7 @@
 <script setup>
 import { ref } from "vue"
 
-// Use clean & explicit function
+// Active Tab logic
 const activeTab = ref("mission")
 
 const setTab = (tab) => {
@@ -146,144 +146,307 @@ const setTab = (tab) => {
 
 const tabClass = (tab) =>
   activeTab.value === tab ? "tab-active" : "tab-inactive"
+
+// Why Us data
+const values = ref([
+  { 
+    title: "Licensed & Insured", 
+    description: "We operate to industry standards with full compliance.", 
+    icon: "shield" 
+  },
+  { 
+    title: "Transparent Pricing", 
+    description: "Clear scope, fair rates, and no hidden fees.", 
+    icon: "pricing" 
+  },
+  { 
+    title: "On-Time Delivery", 
+    description: "Reliable timelines and professional communication.", 
+    icon: "clock" 
+  }
+])
+
+// Example icons – replace with your real SVG icons
+
+const icons = {
+  shield: `
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    </svg>
+  `,
+
+  pricing: `
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 1v22"></path>
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"></path>
+    </svg>
+  `,
+
+  clock: `
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0b5ed7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+  `
+}
 </script>
 
 <style scoped>
-/* Shared Layout */
+/* ============================================================
+   GLOBAL CONTAINER
+============================================================ */
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem;
 }
 
-/* About Us */
+
+/* ============================================================
+   ABOUT US
+============================================================ */
 .about-section {
   background: linear-gradient(to right, #d9dde0ff, #ffffff);
-  padding: 3rem 2rem;
+  padding: 3.5rem 1.8rem;
 }
+
 .about-heading {
-  font-size: 3rem;
+  font-size: 2.7rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  color: #002b5c;
 }
+
 .about-text {
   max-width: 850px;
-  margin: 0 auto 3rem auto;
+  margin: 0 auto 2.5rem;
   text-align: center;
-  font-size: 1.2rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: #333;
 }
+
 .about-list {
   display: flex;
   justify-content: center;
   gap: 2rem;
   list-style: none;
+  flex-wrap: wrap;
 }
+
+.about-list li {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .about-list li::before {
   content: "★";
   color: #004080;
-  margin-right: 0.5rem;
+  margin-right: 0.4rem;
 }
 
-/* Tabs */
+
+/* ============================================================
+   TABS (Mission, Vision, Values)
+============================================================ */
 .tabs-section {
-  padding: 3rem 2rem;
+  padding: 4rem 1.5rem;
 }
+
 .tabs-heading {
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   text-align: center;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #002b5c;
 }
+
 .tabs-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
 }
+
 .tabs-buttons button {
-  padding: 0.7rem 1.5rem;
+  padding: 0.75rem 1.6rem;
   border-radius: 0.5rem;
   font-weight: 600;
   cursor: pointer;
+  font-size: 1rem;
   border: 1px solid #0b5ed7;
-  transition: 0.2s ease;
+  transition: 0.25s ease-in-out;
 }
+
 .tab-active {
   background: #0b6ef0;
   color: white;
+  box-shadow: 0 4px 12px rgba(11, 110, 240, 0.3);
 }
+
 .tab-inactive {
   background: white;
   color: #0b5ed7;
 }
+
+.tab-inactive:hover {
+  background: #e9f0ff;
+}
+
 .mission-vision-values {
-  background: #c74e08ff;
+  background: #c74e08;
   color: white;
   border-radius: 1rem;
   padding: 2rem;
-}
-.values-list li {
-  margin-bottom: 0.5rem;
+  line-height: 1.7;
 }
 
-/* Team */
+.values-list li {
+  margin-bottom: 0.7rem;
+}
+
+.values-list li:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ============================================================
+   TEAM SECTION
+============================================================ */
 .team-section {
   background: #fff;
-  padding: 5rem 2rem;
+  padding: 4.5rem 1.5rem;
 }
+
 .team-heading {
   text-align: center;
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #002b5c;
 }
+
 .team-grid {
-  margin-top: 2rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
+  gap: 2.2rem;
+  margin-top: 1.5rem;
 }
+
 .team-image {
   width: 100%;
-  height: 400px;
+  height: 420px;
   object-fit: cover;
   border-radius: 1rem;
 }
+
+.about-content h3 {
+  font-size: 1.45rem;
+  margin-bottom: 0.9rem;
+  color: #222;
+}
+
+.about-content p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #444;
+}
+
 .team-extra {
   background: #f9fafb;
   padding: 1.8rem;
   border-radius: 1rem;
 }
 
-/* ---------------- VALUES ---------------- */
+
+/* RESPONSIVE TEAM GRID */
+@media (max-width: 950px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .team-image {
+    height: 350px;
+  }
+}
+
+
+/* ============================================================
+   WHY CHOOSE US (VALUES)
+============================================================ */
+.why-us{
+  padding: 20px;
+  text-align: center;
+}
 .values-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  gap: 25px;
+  margin-top: 2rem;
 }
+
 .value-card {
   background: #fff;
   padding: 24px;
   border-radius: 14px;
   text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: 0.3s ease-in-out;
 }
 
-/* Partners */
+.value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.1);
+}
+
+.circle-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e7f0ff;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.value-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #002b5c;
+}
+
+.value-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+
+/* ============================================================
+   PARTNERS SECTION
+============================================================ */
 .partners-section {
   background: #f9fafb;
-  padding: 5rem 2rem;
+  padding: 4rem 1.5rem;
 }
+
 .partners-heading {
   text-align: center;
-  font-size: 2.6rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #002b5c;
 }
+
 .partners-container {
   max-width: 900px;
   margin: 0 auto;
 }
+
 .partner-card {
   background: #fff;
   padding: 2.5rem;
@@ -291,8 +454,18 @@ const tabClass = (tab) =>
   align-items: center;
   gap: 2rem;
   border-radius: 1rem;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
 }
+
 .partner-card img {
-  max-width: 120px;
+  max-width: 130px;
+  border-radius: 6px;
+}
+
+@media (max-width: 750px) {
+  .partner-card {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 </style>

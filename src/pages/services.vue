@@ -6,24 +6,9 @@
     <!-- ================================= -->
     <header class="hero">
       <h1>Our Services</h1>
-      <p>Professional, end-to-end water solutions for homes, industries, and communities.</p>
+      <p>We deliver end-to-end solutions designed to deliver reliable water access. From professional water solutions, hydrogeological surveys, drilling, 
+      installation, testing, to maintenance for homes, industries, and communities.</p>
     </header>
-
-    <!-- ================================= -->
-    <!--         KEY SERVICES               -->
-    <!-- ================================= -->
-    <section class="section">
-      <h2 class="section-title">Key Services</h2>
-      <p class="section-subtitle">Our core solutions designed to deliver reliable water access.</p>
-
-      <ul class="services-grid">
-        <li v-for="(s, i) in services" :key="s.title" class="service-card" :style="{ animationDelay: `${i * 80}ms` }">
-          <div class="icon" v-html="icons[s.icon]"></div>
-          <h3>{{ s.title }}</h3>
-          <p>{{ s.description }}</p>
-        </li>
-      </ul>
-    </section>
 
     <!-- ================================= -->
     <!--        FEATURED FULL WIDTH         -->
@@ -46,149 +31,133 @@
       </div>
     </section>
 
-    
     <!-- ================================= -->
-    <!--     MAINTENANCE + OTHER SERVICES   -->
-    <!-- ================================= -->
-    <section class="section alt">
-      <h2 class="section-title small">Maintenance & Other Services</h2>
-      <p class="section-subtitle">Supporting services that keep your system efficient and long-lasting.</p>
+<!--     TREE DIAGRAM: SERVICES & PRODUCTS   -->
+<!-- ================================= -->
+<section class="section alt">
 
-      <ul class="other-grid">
-        <li v-for="(s, i) in otherServices" :key="s.title" class="other-card">
-          <div class="circle-icon" v-html="icons[s.icon]"></div>
-          <h3>{{ s.title }}</h3>
-          <p>{{ s.description }}</p>
+  <h2 class="section-title small">Other Services & Products</h2>
+  <p class="section-subtitle">Organized overview of the additional solutions we offer.</p>
+
+  <div class="tree-container">
+    
+    <!-- LEFT COLUMN – OTHER SERVICES -->
+    <div class="tree-column">
+      <h3 class="tree-heading">Other Services</h3>
+
+      <ul class="tree-list">
+        <li v-for="s in services.otherServices" :key="s.title">
+          <span class="node-title">{{ s.title }}</span>
+          <p class="node-desc">{{ s.description }}</p>
         </li>
       </ul>
-    </section>
+    </div>
+
+    <!-- RIGHT COLUMN – PRODUCTS -->
+    <div class="tree-column">
+      <h3 class="tree-heading">Products</h3>
+
+      <ul class="tree-list">
+        <li v-for="p in services.products" :key="p.title">
+          <span class="node-title">{{ p.title }}</span>
+          <p class="node-desc">{{ p.description }}</p>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- ================================= -->
     <!--                CTA                 -->
     <!-- ================================= -->
     <section class="cta">
-      <router-link to="/estimate" class="btn primary">Get a Free Estimate</router-link>
+      <button @click="openEstimateModal" class="btn primary">Get a Free Estimate</button>
       <button @click="openWhatsApp" class="btn whatsapp">WhatsApp Us</button>
     </section>
 
   </section>
 </template>
 
-<script>
-import project1 from "@/assets/images/project1.jpg";
-import project2 from "@/assets/images/project2.jpg";
-import project4 from "@/assets/images/project4.jpg";
-import project6 from "@/assets/images/project6.jpg";
+<script setup>
+import { inject } from "vue"
 
-export default {
-  name: "ServicesView",
-  data() {
-    return {
-      /* -------------- KEY SERVICES --------------- */
-      services: [
-        {
-          title: "Borehole Drilling",
-          description: "Reliable drilling for sustainable water access tailored to your site.",
-          icon: "drilling",
-        },
-        {
-          title: "Pump Installation",
-          description: "Professional pump sizing, installation, and optimization.",
-          icon: "pump",
-        },
-        {
-          title: "Water Testing",
-          description: "Comprehensive quality analysis to ensure safe, clean water.",
-          icon: "testing",
-        },
-        {
-          title: "Hydrogeological Surveys",
-          description: "Evidence-based site evaluation to maximize drilling success.",
-          icon: "survey",
-        },
-      ],
+import project1 from "@/assets/images/project1.jpg"
+import project2 from "@/assets/images/project2.jpg"
+import project3 from "@/assets/images/project3.jpg"
+import project4 from "@/assets/images/project4.jpg"
+import project5 from "@/assets/images/project5.jpg"
+import project6 from "@/assets/images/project6.jpg"
 
-      /* ----------- FEATURED FULL WIDTH ----------- */
-      featured: [
-        {
-          id: 1,
-          title: "Drilling Services",
-          description:
-            "We provide reliable borehole drilling using advanced equipment and strict quality processes.",
-          image: project2,
-        },
-        {
-          id: 2,
-          title: "Hydrological Survey",
-          description:
-            "Our hydrogeological assessments improve drilling success rates and water yield.",
-          image: project4,
-        },
-        {
-          id: 3,
-          title: "Steel Water Tower Fabrication",
-          description:
-            "We fabricate strong, long-lasting elevated steel tanks for communities and industries.",
-          image: project6,
-        },
-        {
-          id: 4,
-          title: "Solar Pump Installation",
-          description:
-            "Energy-efficient, reliable solar pumping systems for homes, farms, and institutions.",
-          image: project1,
-        },
-      ],
+// Inject global modal + toast
+const openEstimateModal = inject("openEstimateModal")
+const toast = inject("toast")
 
-      /* ----------- MAINTENANCE & OTHERS ---------- */
-      otherServices: [
-        {
-          title: "Maintenance & Repairs",
-          description: "Preventative servicing and rapid repairs that reduce downtime.",
-          icon: "maintenance",
-        },
-        {
-          title: "Steel Tank Fabrication",
-          description: "Durable, elevated storage tanks built for long-term performance.",
-          icon: "steel",
-        },
-      ],
+// WhatsApp
+function openWhatsApp() {
+  window.open("https://wa.me/254721957386", "_blank")
+}
 
-      /* ----------- VALUE PROPOSITIONS ------------ */
-      values: [
-        {
-          title: "Qualified Experts",
-          description: "A team of highly trained specialists in borehole and water systems.",
-          icon: "drilling",
-        },
-        {
-          title: "Quality Workmanship",
-          description: "We follow strict engineering and safety standards for all projects.",
-          icon: "pump",
-        },
-        {
-          title: "Reliable Professionals",
-          description: "We prioritize customer satisfaction, timeliness, and quality service.",
-          icon: "testing",
-        },
-      ],
-
-      icons: {
-        drilling: `<svg ...>...</svg>`,
-        pump: `<svg ...>...</svg>`,
-        testing: `<svg ...>...</svg>`,
-        survey: `<svg ...>...</svg>`,
-        maintenance: `<svg ...>...</svg>`,
-        steel: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h16"/><rect x="7" y="4" width="10" height="12" rx="2"/></svg>`
-      },
-    };
+// ---- Data ----
+const featured = [
+  {
+    title: "01. Borehole Drilling",
+    description:
+      "Kevino Drilling specializes in borehole drilling, utilizing advanced equipment and expertise to access underground water sources. Whether for residential, commercial, or agricultural purposes, our borehole drilling services ensure reliable access to clean water, tailored to meet the specific needs of our clients.",
+    icon: "drilling",
+    image: project2,
   },
-  methods: {
-    openWhatsApp() {
-      window.open("https://wa.me/254722146077", "_blank");
+  {
+    title: "02. Installation of Solar Pump",
+    description:
+      "At Kevino Drilling, we also specialize in solar water pump installation, harnessing renewable energy to provide sustainable and efficient water solutions for your projects.",
+    icon: "pump",
+    image: project3,
+  },
+  {
+    title: "03. Fabrication of Water Tower",
+    description:
+      "Our water tower tanks provide robust and reliable storage solutions for communities, industries, and agricultural operations. They are designed and built to withstand environmental factors and ensure efficient water distribution, contributing to sustainable water management practices.",
+    icon: "testing",
+    image: project5,
+  },
+  {
+    title: "04. Hydrogeological Surveys",
+    description:
+      "Explore the depth of our expertise through Kevino Drilling’s hydrological survey services. We utilize advanced techniques to reveal invaluable insights, providing precise solutions for your water-related projects.",
+    icon: "survey",
+    image: project4,
+  },
+]
+
+const services = {
+  otherServices: [
+    {
+      id: 1,
+      title: "Construction of Water Supply, Treatment, Storage, and Distribution Systems",
+      description: "we design and build customized systems to ensure efficient and sustainable water management, meeting the demands of communities, industries, and agricultural operations alike.",
     },
-  },
-};
+    {
+      id: 4,
+      title: "Water Testing",
+      description:
+        "Precision testing for safe water use. We offer comprehensive water testing services to assess quality, detect contaminants, and support sustainable water management solutions.",
+    },
+  ],
+  products: [
+    {
+      title: "Water Pumps",
+      description:
+        "Reliable performance for every application. Our water pumps are engineered for durability and efficiency, delivering consistent flow for residential, agricultural, and industrial needs.",
+    },
+    {
+      title: "Water Tanks",
+      description:
+        "Secure storage, built to last. We supply high-quality water tanks designed to withstand harsh conditions, ensuring safe and long-term water storage for any environment.",
+    },
+  ],
+}
 </script>
 
 <style scoped>
@@ -223,7 +192,7 @@ export default {
 .section {
   max-width: 1200px;
   margin: auto;
-  padding: 2rem 1.2rem;
+  padding: 2rem 1.5rem;
 }
 .section.alt {
   background: var(--bg-light);
@@ -269,34 +238,9 @@ export default {
   color: var(--primary);
 }
 
-/* ---------------- OTHER SERVICES ---------------- */
-.other-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
-}
-.other-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,.05);
-}
-.circle-icon {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 10px;
-  border-radius: 50%;
-  background: #e3edff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--primary);
-}
-
 /* ---------------- FEATURED ---------------- */
 .featured-wrapper {
-  max-width: 1200px;
+  max-width: 900px;
   margin: 3rem auto;
 }
 .featured {
@@ -309,16 +253,92 @@ export default {
   flex-direction: row-reverse;
 }
 .featured img {
-  width: 100%;
-  height: 380px;
+  width: 310px;
+  height: 370px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .featured-content h3 {
   font-size: 1.7rem;
 }
 .featured-content p {
   color: var(--muted);
+}
+
+/* ================= TREE DIAGRAM ================= */
+
+.tree-container {
+  display: flex;
+  gap: 40px;
+  margin-top: 2rem;
+}
+
+.tree-column {
+  flex: 1;
+}
+
+.tree-heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary);
+  padding-left: 10px;
+}
+
+/* Lines for the tree */
+.tree-list {
+  list-style: none;
+  padding-left: 20px;
+  position: relative;
+}
+
+.tree-list::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #cbd5e1;
+}
+
+.tree-list li {
+  margin-bottom: 24px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.tree-list li::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 10px;
+  width: 18px;
+  height: 2px;
+  background: #cbd5e1;
+}
+
+/* Text styles */
+.node-title {
+  font-weight: 600;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.node-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .tree-container {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 /* ---------------- CTA ---------------- */
@@ -335,7 +355,7 @@ export default {
   margin: 0 0.5rem;
 }
 .btn.primary {
-  background: var(--primary);
+  background: #ff7f32 ;
   color: #fff;
 }
 .btn.whatsapp {

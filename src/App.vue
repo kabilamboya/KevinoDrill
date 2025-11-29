@@ -1,22 +1,35 @@
 <template>
-  <DefaultLayout @open-estimate="openGlobalModal">
+  <DefaultLayout>
     <router-view />
   </DefaultLayout>
 
-  <!-- Teleport modal globally -->
+  <!-- Teleport modal -->
   <teleport to="body">
     <EstimateModal ref="estimateModal" />
+  </teleport>
+
+  <!-- Teleport toast globally -->
+  <teleport to="body">
+    <Toast ref="toastRef" />
   </teleport>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, provide } from "vue"
 import DefaultLayout from "@/layouts/DefaultLayout.vue"
 import EstimateModal from "@/components/gestimate.vue"
+import Toast from "@/components/Toast.vue"
 
 const estimateModal = ref(null)
+const toastRef = ref(null)
 
 function openGlobalModal() {
   estimateModal.value?.openForm()
 }
+
+// Makes modal globally available
+provide("openEstimateModal", openGlobalModal)
+
+// Makes toast globally available
+provide("toast", toastRef)
 </script>

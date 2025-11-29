@@ -98,23 +98,49 @@ export default {
       message: '',
       faqs: [
         {
-          question: 'How do I request an estimate?',
-          answer: 'Click the "Get a Free Estimate" button and fill out the form.',
+          question: 'How do I request a free estimate?',
+          answer: 'You can request a free estimate by clicking the “Get a Free Estimate” button or contacting us through WhatsApp or our phone number.',
+          open: false
+        },
+        {
+          question: 'Which areas do you serve?',
+          answer: 'We provide drilling and water services across Kenya, including urban, rural, and remote regions.',
           open: false
         },
         {
           question: 'How long does it take to get a response?',
-          answer: 'We usually respond within 24 hours.',
+          answer: 'We typically respond within a few hours during business hours, and within 24 hours for messages sent after hours.',
           open: false
         },
         {
-          question: 'Do you offer free consultations?',
-          answer: 'Yes, all initial consultations are free.',
+          question: 'Do you offer site assessments?',
+          answer: 'Yes. We provide free initial consultation and can arrange an on-site assessment depending on the project requirements.',
+          open: false
+        },
+        {
+          question: 'What payment options do you accept?',
+          answer: 'We accept M-Pesa, bank transfers, and flexible project-based payment arrangements.',
+          open: false
+        },
+        {
+          question: 'Are you licensed and insured?',
+          answer: 'Yes. Our team is fully licensed and insured to operate drilling and water service equipment in Kenya.',
+          open: false
+        },
+        {
+          question: 'Where can I find your privacy policy?',
+          answer: 'You can view our Privacy Policy at the footer of this website. It explains how we collect and protect your information.',
+          open: false
+        },
+        {
+          question: 'Where can I find your terms and conditions?',
+          answer: 'Our Terms & Conditions are available in the website footer and outline service rules, warranties, and usage policies.',
           open: false
         }
       ]
     };
   },
+
   methods: {
     submitForm() {
       // Replace with real submission logic as needed

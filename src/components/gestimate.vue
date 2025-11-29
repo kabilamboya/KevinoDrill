@@ -1,7 +1,7 @@
 <template>
   <div v-if="isOpen" class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
-      
+
       <!-- Top Bar -->
       <div class="modal-header">
         <h2>Request Free Estimate</h2>
@@ -85,16 +85,20 @@
           <button type="submit" class="btn-primary">Download PDF Estimate</button>
         </div>
       </form>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import services, { counties } from "@/data/estimateData";
 import useEstimateCalculator from "@/composables/useEstimateCalculator";
 import jsPDF from "jspdf";
 
+const toast = inject("toast");   // ✅ Inject toast ONCE here
+
+/* --------------------- STATE --------------------- */
 const isOpen = ref(false);
 
 const form = ref({
@@ -106,16 +110,12 @@ const form = ref({
   depth: null,
 });
 
-const openForm = () => {
-  isOpen.value = true;
-};
-
-const closeModal = () => {
-  isOpen.value = false;
-};
+const openForm = () => (isOpen.value = true);
+const closeModal = () => (isOpen.value = false);
 
 defineExpose({ openForm });
 
+/* ---------------- COMPUTED ---------------- */
 const serviceOptions = computed(() =>
   form.value.serviceType ? services[form.value.serviceType] : []
 );
@@ -125,13 +125,15 @@ const isDrilling = computed(() => form.value.serviceType === "Borehole Drilling"
 const { calculateCosts } = useEstimateCalculator();
 
 const summary = computed(() =>
-  form.value.serviceType ? calculateCosts(form.value) : { total: 0, breakdown: {} }
+  form.value.serviceType
+    ? calculateCosts(form.value)
+    : { total: 0, breakdown: {} }
 );
 
 const formatCurrency = (v) =>
   "KES " + Number(v).toLocaleString("en-KE", { minimumFractionDigits: 0 });
 
-/* ---------------- PDF GENERATION ---------------- */
+/* ---------------- PDF GENERATION + TOAST ---------------- */
 const generatePDF = () => {
   const doc = new jsPDF();
   let y = 10;
@@ -151,16 +153,20 @@ const generatePDF = () => {
 
   y += 4;
   doc.text(`Service Type: ${form.value.serviceType}`, 10, y); y += 8;
+
   if (form.value.serviceOption) {
-    doc.text(`Service Option: ${form.value.serviceOption}`, 10, y); y += 8;
+    doc.text(`Service Option: ${form.value.serviceOption}`, 10, y); 
+    y += 8;
   }
 
   if (form.value.depth) {
-    doc.text(`Depth: ${form.value.depth} meters`, 10, y); y += 8;
+    doc.text(`Depth: ${form.value.depth} meters`, 10, y); 
+    y += 8;
   }
 
   y += 6;
-  doc.text("Cost Breakdown", 10, y); y += 8;
+  doc.text("Cost Breakdown", 10, y); 
+  y += 8;
 
   Object.entries(summary.value.breakdown).forEach(([label, value]) => {
     doc.text(`${label}: ${formatCurrency(value)}`, 10, y);
@@ -172,6 +178,9 @@ const generatePDF = () => {
   doc.text(`TOTAL: ${formatCurrency(summary.value.total)}`, 10, y);
 
   doc.save("Estimate.pdf");
+
+  // SHOW TOAST
+  toast?.value?.showToast("Your estimate PDF has been downloaded successfully!");
 };
 </script>
 

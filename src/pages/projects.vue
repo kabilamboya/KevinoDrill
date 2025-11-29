@@ -88,100 +88,105 @@
       </figure>
     </div>
   </section>
-  <!-- ================= CTA BAND ================= -->
-    <section class="cta-band" aria-labelledby="cta-heading">
-      <div class="cta-inner">
-        <h2 id="cta-heading">Ready to start your project?</h2>
-        <p>Get a free, no-obligation estimate in minutes.</p>
-        <button @click="$emit('open-estimate')" class="btn btn-accent btn-lg">
-          Request Estimate
-        </button>
-      </div>
-    </section>
+
+<!-- ================= CTA BAND ================= -->
+<section class="cta-band" aria-labelledby="cta-heading">
+  <div class="cta-inner">
+    <h2 id="cta-heading">Ready to start your project?</h2>
+    <p>Get a free, no-obligation estimate in minutes.</p>
+
+    <button @click="openEstimateModal" class="btn primary">Get a Free Quote</button>
+  </div>
+</section>
+
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import { inject } from 'vue'
 
-// Import images (adjust paths to match your project)
-import featuredImg from '@/assets/images/project1.jpg'
-import p2 from '@/assets/images/project2.jpg'
-import p3 from '@/assets/images/project3.jpg'
-import p4 from '@/assets/images/project4.jpg'
-import p5 from '@/assets/images/project5.jpg'
-import p6 from '@/assets/images/project6.jpg'
+// Inject global modal + toast
+const openEstimateModal = inject("openEstimateModal")
+const toast = inject("toast")
 
-// Featured + recent projects data (merged from both files)
+// Lightbox component
+import Gestimate from '@/components/gestimate.vue'
+
+// Import images
+import s1 from '@/assets/images/service1.jpg'
+import s2 from '@/assets/images/service2.jpg'
+import s3 from '@/assets/images/service3.jpg'
+import s4 from '@/assets/images/service4.jpg'
+import s5 from '@/assets/images/service5.jpg'
+import s6 from '@/assets/images/service6.jpeg'
+
+// Featured project
 const featured = {
   title: "Hydrological survey and drilling",
   location: "Siaya-Uyoma",
   description:
-    "Comprehensive hydrological survey followed by precision drilling to provide reliable groundwater access. The project ensured sustainable water supply for the community while adhering to environmental best practices.",
+    "Comprehensive hydrological survey followed by precision drilling to provide reliable groundwater access.",
   testimonial: "Kevino Drilling delivered beyond expectations, ensuring clean and consistent water flow.",
   client: "Joash Otieno",
-  image: featuredImg
+  image: s1
 }
 
+// Recent projects
 const recentProjects = ref([
   {
     id: 1,
     title: "Steel tank fabrication",
     location: "Turkana",
     description:
-      "Custom-designed steel water storage tank fabricated and installed to withstand harsh climatic conditions. The tank supports large-scale water distribution for rural communities.",
-    testimonial: "Strong, durable, and professionally executed — a true asset for our operations.",
+      "Custom-designed steel water storage tank fabricated and installed.",
+    testimonial: "Strong, durable, and professionally executed.",
     client: "Hydraelmat Ventures",
-    image: p2
+    image: s1
   },
   {
     id: 2,
     title: "Solar water pump installation",
     location: "Commissioned by Pekas Ltd",
-    description:
-      "Deployment of an energy-efficient solar-powered water pumping system. This project reduced operational costs while ensuring continuous water supply in off-grid areas.",
-    testimonial: "The solar solution has transformed our water accessibility and lowered energy expenses.",
+    description: "Energy-efficient solar-powered pumping system.",
+    testimonial: "Transformed our water accessibility.",
     client: "Pekas Ltd",
-    image: p3
+    image: s3
   },
   {
     id: 3,
     title: "Borehole drilling and casing",
     location: "Kajiado",
-    description:
-      "Executed borehole drilling with reinforced casing to guarantee long-term structural integrity. The project provided safe and dependable water access for both domestic and agricultural use.",
-    testimonial: "Reliable workmanship and attention to detail — we now have a lasting water source.",
+    description: "Reinforced casing for long-term structural integrity.",
+    testimonial: "Reliable workmanship and attention to detail.",
     client: "Maji Safi Ltd",
-    image: p4
+    image: s4
   },
   {
     id: 4,
     title: "Rainwater harvesting system",
     location: "Kitui",
-    description:
-      "Designed and installed a rainwater harvesting system with storage tanks and filtration units. The solution maximized seasonal rainfall capture and reduced reliance on external water sources.",
-    testimonial: "Innovative and sustainable — our community benefits greatly during dry seasons.",
+    description: "Capture and store seasonal rainwater.",
+    testimonial: "Our community benefits greatly during dry seasons.",
     client: "GreenTech Africa",
-    image: p5
+    image: s2
   },
   {
     id: 5,
     title: "Water kiosk setup",
     location: "Machakos",
-    description:
-      "Constructed and equipped a modern water kiosk to serve local residents. The kiosk provides affordable, clean water while promoting community health and accessibility.",
-    testimonial: "Kevino Drilling’s kiosk setup has improved daily life for hundreds of families.",
+    description: "Affordable, clean water for the community.",
+    testimonial: "Improved daily life for hundreds of families.",
     client: "County Water Board",
-    image: p5
+    image: s5
   },
   {
     id: 6,
     title: "Pump maintenance and upgrade",
     location: "Narok",
-    description:
-      "Performed preventive maintenance and upgraded pumping systems to enhance efficiency and extend lifespan. The project ensured uninterrupted water supply for local farmers.",
-    testimonial: "Our upgraded pumps run smoothly and reliably thanks to Kevino Drilling’s expertise.",
+    description: "Preventive maintenance and pump upgrades.",
+    testimonial: "Upgraded pumps run smoothly and reliably.",
     client: "Narok Farmers Union",
-    image: p6
+    image: s6
   }
 ])
 
@@ -191,15 +196,16 @@ const lightbox = ref({
   project: null
 })
 
+// Image viewer
+const lightboxFigure = ref(null)
+
 const openLightbox = (project) => {
   lightbox.value.project = project
   lightbox.value.open = true
-  // prevent background scroll
   document.body.style.overflow = 'hidden'
-  // focus trap hint: focus the figure for screen readers
+
   nextTick(() => {
-    const fig = lightboxFigure.value
-    if (fig) fig.focus()
+    if (lightboxFigure.value) lightboxFigure.value.focus()
   })
 }
 
@@ -209,14 +215,10 @@ const closeLightbox = () => {
   document.body.style.overflow = ''
 }
 
-// keyboard handlers (Escape closes, Left/Right optional)
 const onKey = (e) => {
   if (!lightbox.value.open) return
   if (e.key === 'Escape') closeLightbox()
 }
-
-// ref to lightbox figure to set focus
-const lightboxFigure = ref(null)
 
 onMounted(() => {
   window.addEventListener('keydown', onKey)
@@ -224,19 +226,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKey)
-  document.body.style.overflow = '' // ensure no leftover lock
+  document.body.style.overflow = ''
 })
-
-// watch open state to restore focus (optional)
-watch(
-  () => lightbox.value.open,
-  (open) => {
-    if (!open) {
-      // small delay -> remove focus from previously focused element
-      // no-op: letting browser resume normal focus
-    }
-  }
-)
 </script>
 
 <style scoped>
@@ -484,5 +475,26 @@ watch(
 @media (prefers-reduced-motion: reduce) {
   .card { animation: none; transition: none; }
   .card-img { transition: none; }
+}
+
+/* CTA BAND */
+.cta-band {
+  color: #0056d2;
+  text-align: center;
+  padding: 40px 20px;
+}
+.cta-band h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.cta-band p {
+  font-size: 1.1rem;
+  opacity: .9;
+  margin-bottom: 20px;
+}
+.cta-band button {
+  color: #fff;
+  background: #ff7f32;
 }
 </style>
