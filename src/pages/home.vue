@@ -228,12 +228,7 @@ export default {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at center,
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 0.45)
-    ),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+  background: transparent;
   z-index: 1;
 }
 
@@ -246,6 +241,7 @@ export default {
   max-width: 1100px;
   margin: 0 auto;
   animation: fadeUp 1s ease-out;
+  text-shadow: 0 3px 14px rgba(0,0,0,0.45);
 }
 
 .hero-subtitle {
@@ -286,6 +282,7 @@ export default {
   height: 100%;
   object-fit: cover;
   animation: panZoom 18s ease-in-out infinite;
+  filter: brightness(1.12) contrast(1.05);
 }
 
 @keyframes panZoom {

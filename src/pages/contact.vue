@@ -3,11 +3,16 @@
     <h1 id="contact-heading">Contact Us</h1>
     <p>We’d love to hear from you! Fill out the form below:</p>
 
-    <!-- Contact Form -->
-    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" @submit.prevent="submitForm" novalidate>
+    <div class="contact-grid">
+      <div class="contact-image">
+        <img src="@/assets/images/teamlead.jpg" alt="Team lead" loading="lazy" />
+      </div>
+
+      <!-- Contact Form -->
+      <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" @submit.prevent="submitForm" novalidate>
       <input type="hidden" name="form-name" value="contact" />
       <p class="sr-only">
-        <label>Don?t fill this out if you?re human: <input name="bot-field" /></label>
+        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
       </p>
       <label class="sr-only" for="name">Your Name</label>
       <input
@@ -18,6 +23,7 @@
         required
         autocomplete="name"
       />
+      <p v-if="errors.name" class="error-text">{{ errors.name }}</p>
 
       <label class="sr-only" for="email">Your Email</label>
       <input
@@ -29,6 +35,19 @@
         autocomplete="email"
         inputmode="email"
       />
+      <p v-if="errors.email" class="error-text">{{ errors.email }}</p>
+
+      <label class="sr-only" for="phone">Your Phone</label>
+      <input
+        id="phone"
+        type="tel"
+        placeholder="+2547XXXXXXXX"
+        v-model.trim="phone"
+        required
+        autocomplete="tel"
+        inputmode="tel"
+      />
+      <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
 
       <label class="sr-only" for="message">Your Message</label>
       <textarea
@@ -38,9 +57,11 @@
         required
         rows="6"
       ></textarea>
+      <p v-if="errors.message" class="error-text">{{ errors.message }}</p>
 
-      <button type="submit" class="primary-btn">Send Message</button>
-    </form>
+        <button type="submit" class="primary-btn">Send Message</button>
+      </form>
+    </div>
 
     <!-- FAQ Section -->
     <div class="faq-section" aria-labelledby="faq-heading">
@@ -103,13 +124,16 @@ export default {
     return {
       name: "",
       email: "",
+      phone: "",
       message: "",
       displayEmail: "info@kevinodriling.co.ke",
+      errors: { name: "", email: "", phone: "", message: "" },
       faqs: [
         {
-          question: 'How do I request a free estimate?',
-          id: 'faq-pricing',
-          answer: 'You can request a free estimate by clicking the “Get a Free Estimate” button or contacting us through WhatsApp or our phone number.',
+          question: "How do I request a free estimate?",
+          id: "faq-pricing",
+          answer:
+            "You can request a free estimate by clicking the \"Get a Free Estimate\" button or contacting us through WhatsApp or our phone number.",
           open: false
         },
         {
@@ -192,7 +216,31 @@ export default {
         .join("&")
     },
 
+    normalizePhone(raw) {
+      const trimmed = (raw || "").replace(/\s+/g, "")
+      if (!trimmed) return ""
+      if (trimmed.startsWith("+")) return trimmed
+      if (trimmed.startsWith("0")) return "+254" + trimmed.slice(1)
+      if (trimmed.startsWith("254")) return "+" + trimmed
+      return trimmed
+    },
+
+    validateForm() {
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
+      const phoneNorm = this.normalizePhone(this.phone)
+      const phoneOk = /^\+2547\d{8}$/.test(phoneNorm)
+
+      this.errors.name = this.name ? "" : "Please enter your name."
+      this.errors.email = emailOk ? "" : "Please enter a valid email."
+      this.errors.phone = phoneOk ? "" : "Use format +2547XXXXXXXX."
+      this.errors.message = this.message ? "" : "Please enter a message."
+
+      return emailOk && phoneOk && !this.errors.name && !this.errors.message
+    },
+
     async submitForm() {
+      if (!this.validateForm()) return
+      const normalizedPhone = this.normalizePhone(this.phone)
       try {
         await fetch("/", {
           method: "POST",
@@ -201,12 +249,14 @@ export default {
             "form-name": "contact",
             name: this.name,
             email: this.email,
+            phone: normalizedPhone,
             message: this.message,
           }),
         })
-        this.showToast?.("Thanks! We'll get back to you shortly.")
+        this.showToast?.("Thanks for contacting us! We will be in touch with you shortly.")
         this.name = ""
         this.email = ""
+        this.phone = ""
         this.message = ""
       } catch (e) {
         this.showToast?.("Sorry, something went wrong. Please try again.")
@@ -227,6 +277,23 @@ export default {
   font-family: "Segoe UI", sans-serif;
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+.contact-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(2,12,27,0.12);
+}
+
 .contact-email {
   margin-top: 6px;
   color: #004080;
@@ -242,6 +309,12 @@ export default {
   padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0, 0, 0, 0);
   white-space: nowrap; border: 0;
+}
+
+.error-text {
+  margin: -4px 0 10px;
+  color: #c62828;
+  font-size: 0.9rem;
 }
 
 input,
@@ -324,5 +397,14 @@ textarea {
   width: 32px;
   height: 32px;
   display: block;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-image img {
+    max-height: 360px;
+  }
 }
 </style>

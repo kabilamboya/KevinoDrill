@@ -57,6 +57,10 @@
             "{{ project.testimonial }}"
             <footer>- {{ project.client }}</footer>
           </blockquote>
+
+          <router-link :to="`/projects/${project.slug}`" class="details-link">
+            View Details
+          </router-link>
         </div>
       </li>
     </ul>
@@ -102,8 +106,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
-import { inject } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick } from "vue"
+import { inject } from "vue"
+import projects, { featuredProject } from "@/data/projects"
 
 // Inject global modal + toast
 const openEstimateModal = inject("openEstimateModal")
@@ -111,84 +116,8 @@ const openEstimateModal = inject("openEstimateModal")
 // Lightbox component
 
 // Import images
-import s1 from '@/assets/images/service1.jpg'
-import s2 from '@/assets/images/service2.jpg'
-import s3 from '@/assets/images/service3.jpg'
-import s4 from '@/assets/images/service4.jpg'
-import s5 from '@/assets/images/service5.jpg'
-import s6 from '@/assets/images/service6.jpeg'
-
-// Featured project
-const featured = {
-  title: "Hydrological survey and drilling",
-  location: "Siaya-Uyoma",
-  description:
-    "Comprehensive hydrological survey followed by precision drilling to provide reliable groundwater access.",
-  testimonial: "Kevino Drilling delivered beyond expectations, ensuring clean and consistent water flow.",
-  client: "Joash Otieno",
-  image: s1
-}
-
-// Recent projects
-const recentProjects = ref([
-  {
-    id: 1,
-    slug: "steel-tank",
-    title: "Steel tank fabrication",
-    location: "Turkana",
-    description:
-      "Custom-designed steel water storage tank fabricated and installed.",
-    testimonial: "Strong, durable, and professionally executed.",
-    client: "Hydraelmat Ventures",
-    image: s1
-  },
-  {
-    id: 2,
-    slug: "solar-pump",
-    title: "Solar water pump installation",
-    location: "Nairobi county",
-    description: "Energy-efficient solar-powered pumping system.",
-    testimonial: "Transformed our water accessibility.",
-    client: "Pekas Ltd",
-    image: s3
-  },
-  {
-    id: 3,
-    title: "Borehole drilling and casing",
-    location: "Kajiado",
-    description: "Reinforced casing for long-term structural integrity.",
-    testimonial: "Reliable workmanship and attention to detail.",
-    client: "Maji Safi Ltd",
-    image: s4
-  },
-  {
-    id: 4,
-    title: "Rainwater harvesting system",
-    location: "Kitui",
-    description: "Capture and store seasonal rainwater.",
-    testimonial: "Our community benefits greatly during dry seasons.",
-    client: "GreenTech Africa",
-    image: s2
-  },
-  {
-    id: 5,
-    title: "Water kiosk setup",
-    location: "Machakos",
-    description: "Affordable, clean water for the community.",
-    testimonial: "Improved daily life for hundreds of families.",
-    client: "County Water Board",
-    image: s5
-  },
-  {
-    id: 6,
-    title: "Pump maintenance and upgrade",
-    location: "Narok",
-    description: "Preventive maintenance and pump upgrades.",
-    testimonial: "Upgraded pumps run smoothly and reliably.",
-    client: "Narok Farmers Union",
-    image: s6
-  }
-])
+const featured = featuredProject
+const recentProjects = ref(projects)
 
 // Lightbox state
 const lightbox = ref({
@@ -271,10 +200,11 @@ onBeforeUnmount(() => {
   display: flex;
   gap: 20px;
   align-items: stretch;
-  background: #eef6ff;
+  background: transparent;
   padding: 1.25rem;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(2,12,27,0.06);
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(2,12,27,0.08);
 }
 .featured-image {
   width: 420px;
@@ -289,7 +219,7 @@ onBeforeUnmount(() => {
 .featured-text h4 {
   margin: 0 0 6px;
   font-size: 1rem;
-  color: var(--accent);
+  color: var(--text);
 }
 .featured-text h3.location {
   margin: 0 0 8px;
@@ -299,6 +229,22 @@ onBeforeUnmount(() => {
   margin: 0 0 12px;
   color: var(--muted);
   line-height: 1.6;
+}
+.featured-text blockquote {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-left: 4px solid #e2e8f0;
+  border-radius: 8px;
+  color: #334155;
+}
+.featured-text blockquote footer {
+  margin-top: 6px;
+  color: #475569;
+  font-weight: 600;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 /* Grid header (small) */
@@ -396,11 +342,21 @@ onBeforeUnmount(() => {
 }
 .project-quote footer {
   display: inline-block;
-  background-color: var(--accent);
   color: #fff;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   margin-top: 0.5rem;
+}
+
+.details-link {
+  display: inline-flex;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #0d6efd;
+  text-decoration: none;
+}
+.details-link:hover {
+  text-decoration: underline;
 }
 
 /* Lightbox */

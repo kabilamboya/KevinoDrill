@@ -85,7 +85,7 @@ import { inject } from "vue"
 import project2 from "@/assets/images/project2.jpg"
 import project3 from "@/assets/images/project3.jpg"
 import project4 from "@/assets/images/project4.jpg"
-import project5 from "@/assets/images/project5.jpg"
+import project5 from "@/assets/images/project6.jpg"
 
 // Inject global modal + toast
 const openEstimateModal = inject("openEstimateModal")
@@ -176,7 +176,7 @@ const services = {
 /* ---------------- HERO ---------------- */
 .hero {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 2.2rem 1rem 1.2rem;
   max-width: 900px;
   margin: auto;
 }
@@ -187,7 +187,8 @@ const services = {
 .hero p {
   margin-top: 0.5rem;
   color: var(--muted);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 /* ---------------- SECTIONS ---------------- */
@@ -244,19 +245,25 @@ const services = {
 .featured-wrapper {
   max-width: 900px;
   margin: 3rem auto;
+  display: grid;
+  gap: 24px;
 }
 .featured {
   display: flex;
   gap: 2rem;
-  margin: 3rem 0;
+  margin: 0;
   align-items: center;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 28px rgba(2,12,27,0.08);
 }
 .featured.reverse {
   flex-direction: row-reverse;
 }
 .featured img {
-  width: 310px;
-  height: 370px;
+  width: 320px;
+  height: 300px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -265,6 +272,9 @@ const services = {
 }
 .featured-content p {
   color: var(--muted);
+}
+.featured + .featured {
+  border-top: 1px solid rgba(15,23,42,0.06);
 }
 
 /* ================= TREE DIAGRAM ================= */
@@ -277,6 +287,12 @@ const services = {
 
 .tree-column {
   flex: 1;
+}
+
+.tree-container::before {
+  content: "";
+  width: 1px;
+  background: #e2e8f0;
 }
 
 .tree-heading {
@@ -347,6 +363,12 @@ const services = {
 .cta {
   margin-top: 3rem;
   text-align: center;
+}
+.cta::before {
+  content: "Have a project in mind?";
+  display: block;
+  color: var(--muted);
+  margin-bottom: 10px;
 }
 .btn {
   padding: 12px 20px;

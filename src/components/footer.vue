@@ -14,6 +14,43 @@
         <p class="brand-tag">Sustainable water solutions you can trust.</p>
       </div>
     </div>
+
+    <div class="postoffice-box">
+    <p>P.O. BOX 82 - 40100 Paw Akuche, Oyugis - Kenya</p>
+    </div>
+
+    <div class="socials">
+        <a
+          href="#"
+          aria-label="TikTok"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','tiktok']" /></a>
+        <a
+          href="#"
+          aria-label="Facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','facebook-f']" /></a>
+        <a
+          href="#"
+          aria-label="Instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','instagram']" /></a>
+        <a
+          href="#"
+          aria-label="YouTube"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','youtube']" /></a>
+        <a
+          href="#"
+          aria-label="LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','linkedin-in']" /></a>
+      </div>
   </section>
 
 
@@ -91,41 +128,13 @@
         <a :href="`mailto:${email}`" itemprop="email">{{ email }}</a>
       </p>
 
-      <div class="socials">
-        <a
-          href="#"
-          aria-label="TikTok"
-          target="_blank"
-          rel="noopener noreferrer"
-        ><font-awesome-icon :icon="['fab','tiktok']" /></a>
-        <a
-          href="#"
-          aria-label="Facebook"
-          target="_blank"
-          rel="noopener noreferrer"
-        ><font-awesome-icon :icon="['fab','facebook-f']" /></a>
-        <a
-          href="#"
-          aria-label="Instagram"
-          target="_blank"
-          rel="noopener noreferrer"
-        ><font-awesome-icon :icon="['fab','instagram']" /></a>
-        <a
-          href="#"
-          aria-label="YouTube"
-          target="_blank"
-          rel="noopener noreferrer"
-        ><font-awesome-icon :icon="['fab','youtube']" /></a>
-        <a
-          href="#"
-          aria-label="LinkedIn"
-          target="_blank"
-          rel="noopener noreferrer"
-        ><font-awesome-icon :icon="['fab','linkedin-in']" /></a>
-      </div>
+      
     </address>
   </section>
-</div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Kevino Drilling Company Limited. All rights reserved.</p>
+    </div>
   </footer>
 </template>
 
@@ -161,8 +170,10 @@ export default {
   margin: 0 auto;
   padding: 28px 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 20px;
+  align-items: start;
 }
 
 .footer-col {
@@ -277,12 +288,27 @@ export default {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid rgba(255,255,255,0.1);
-  color: #c7d7f7;
+  color: #0f172a;
+  background: #ffffff;
+  border-radius: 10px;
+  margin-top: 14px;
 }
 
 .bottom-links {
   list-style: none;
   display: flex;
   gap: 12px;
+}
+
+@media (max-width: 1000px) {
+  .footer-wrap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-wrap {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

@@ -4,6 +4,7 @@ import Home from "../pages/home.vue"
 import About from "../pages/about.vue"
 import Services from "../pages/services.vue"
 import Projects from "../pages/projects.vue"
+import ProjectDetail from "../pages/projectDetail.vue"
 import Contact from "../pages/contact.vue"
 
 const routes = [
@@ -11,6 +12,7 @@ const routes = [
   { path: "/about", name: "about", component: About },
   { path: "/services", name: "services", component: Services },
   { path: "/projects", name: "projects", component: Projects },
+  { path: "/projects/:slug", name: "project-detail", component: ProjectDetail },
   { path: "/contact", name: "contact", component: Contact },
 ]
 
