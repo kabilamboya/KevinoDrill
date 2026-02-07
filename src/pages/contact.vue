@@ -4,7 +4,11 @@
     <p>We’d love to hear from you! Fill out the form below:</p>
 
     <!-- Contact Form -->
-    <form @submit.prevent="submitForm" novalidate>
+    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" @submit.prevent="submitForm" novalidate>
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="sr-only">
+        <label>Don?t fill this out if you?re human: <input name="bot-field" /></label>
+      </p>
       <label class="sr-only" for="name">Your Name</label>
       <input
         id="name"
@@ -45,7 +49,7 @@
       <div
         v-for="(faq, index) in faqs"
         :key="faq.question"
-        class="faq-item"
+        class="faq-item" :id="faq.id"
       >
         <button
           @click="toggle(index)"
@@ -89,65 +93,127 @@
 </template>
 
 <script>
+import { inject } from "vue"
+
 export default {
-  name: 'ContactPage',
+  name: "ContactPage",
+  inject: ["showToast"],
+
   data() {
     return {
-      name: '',
-      email: '',
-      message: '',
+      name: "",
+      email: "",
+      message: "",
+      displayEmail: "info@kevinodriling.co.ke",
       faqs: [
         {
           question: 'How do I request a free estimate?',
+          id: 'faq-pricing',
           answer: 'You can request a free estimate by clicking the “Get a Free Estimate” button or contacting us through WhatsApp or our phone number.',
           open: false
         },
         {
           question: 'Which areas do you serve?',
+          id: 'faq-survey',
           answer: 'We provide drilling and water services across Kenya, including urban, rural, and remote regions.',
           open: false
         },
         {
           question: 'How long does it take to get a response?',
+          id: 'faq-timeline',
           answer: 'We typically respond within a few hours during business hours, and within 24 hours for messages sent after hours.',
           open: false
         },
         {
           question: 'Do you offer site assessments?',
+          id: 'faq-drilling',
           answer: 'Yes. We provide free initial consultation and can arrange an on-site assessment depending on the project requirements.',
           open: false
         },
         {
           question: 'What payment options do you accept?',
+          id: 'faq-payments',
           answer: 'We accept M-Pesa, bank transfers, and flexible project-based payment arrangements.',
           open: false
         },
         {
           question: 'Are you licensed and insured?',
+          id: 'faq-licensed',
           answer: 'Yes. Our team is fully licensed and insured to operate drilling and water service equipment in Kenya.',
           open: false
         },
         {
           question: 'Where can I find your privacy policy?',
+          id: 'faq-privacy',
           answer: 'You can view our Privacy Policy at the footer of this website. It explains how we collect and protect your information.',
           open: false
         },
         {
           question: 'Where can I find your terms and conditions?',
+          id: 'faq-terms',
           answer: 'Our Terms & Conditions are available in the website footer and outline service rules, warranties, and usage policies.',
           open: false
         }
       ]
     };
   },
+  mounted() {
+    const hash = window.location.hash.replace("#", "")
+    if (!hash) return
+    const index = this.faqs.findIndex((f) => f.id === hash)
+    if (index >= 0) {
+      this.faqs = this.faqs.map((f, i) => ({ ...f, open: i == index }))
+      this.$nextTick(() => {
+        const el = document.getElementById(hash)
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+      })
+    }
+  },
+
+  watch: {
+    "$route.hash"(hash) {
+      const id = (hash || "").replace("#", "")
+      if (!id) return
+      const index = this.faqs.findIndex((f) => f.id === id)
+      if (index >= 0) {
+        this.faqs = this.faqs.map((f, i) => ({ ...f, open: i == index }))
+        this.$nextTick(() => {
+          const el = document.getElementById(id)
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+        })
+      }
+    },
+  },
 
   methods: {
-    submitForm() {
-      // Replace with real submission logic as needed
-      alert(`Message sent by ${this.name}`);
+    encode(data) {
+      return Object.keys(data)
+        .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&")
+    },
+
+    async submitForm() {
+      try {
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: this.encode({
+            "form-name": "contact",
+            name: this.name,
+            email: this.email,
+            message: this.message,
+          }),
+        })
+        this.showToast?.("Thanks! We'll get back to you shortly.")
+        this.name = ""
+        this.email = ""
+        this.message = ""
+      } catch (e) {
+        this.showToast?.("Sorry, something went wrong. Please try again.")
+      }
     },
     toggle(index) {
-      this.faqs[index].open = !this.faqs[index].open;
+      this.faqs[index].open = !this.faqs[index].open
     }
   }
 };
@@ -158,7 +224,16 @@ export default {
   max-width: 800px;
   margin: auto;
   padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.contact-email {
+  margin-top: 6px;
+  color: #004080;
+}
+.contact-email a {
+  color: #004080;
+  text-decoration: underline;
 }
 
 .sr-only {
@@ -204,6 +279,7 @@ textarea {
 }
 .faq-item {
   margin-bottom: 12px;
+  scroll-margin-top: 100px;
 }
 .faq-question {
   width: 100%;

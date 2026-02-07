@@ -21,11 +21,14 @@
   <nav class="footer-col" aria-labelledby="footer-faqs">
     <h2 id="footer-faqs" class="footer-title">FAQs</h2>
     <ul class="footer-list" role="list">
-      <li><router-link to="/contact#faq-pricing">Pricing Questions</router-link></li>
-      <li><router-link to="/contact#faq-survey">Hydro Survey FAQs</router-link></li>
-      <li><router-link to="/contact#faq-drilling">Drilling Process</router-link></li>
-      <li><router-link to="/contact#faq-timeline">Project Timelines</router-link></li>
-      <li><router-link to="/contact#faq-payments">Payments & Billing</router-link></li>
+      <li><router-link to="/contact#faq-pricing">Free Estimate</router-link></li>
+      <li><router-link to="/contact#faq-survey">Service Areas</router-link></li>
+      <li><router-link to="/contact#faq-timeline">Response Time</router-link></li>
+      <li><router-link to="/contact#faq-drilling">Site Assessments</router-link></li>
+      <li><router-link to="/contact#faq-payments">Payments</router-link></li>
+      <li><router-link to="/contact#faq-licensed">Licensed & Insured</router-link></li>
+      <li><router-link to="/contact#faq-privacy">Privacy Policy</router-link></li>
+      <li><router-link to="/contact#faq-terms">Terms & Conditions</router-link></li>
     </ul>
   </nav>
 
@@ -34,8 +37,8 @@
   <nav class="footer-col" aria-labelledby="footer-projects">
     <h2 id="footer-projects" class="footer-title">Featured Projects</h2>
     <ul class="footer-list" role="list">
-      <li><router-link to="/projects#kisumu-hospital">Kisumu Hospital Well</router-link></li>
-      <li><router-link to="/projects#awendo-factory">Awendo Factory Borehole</router-link></li>
+      <li><router-link to="/projects#steel-tank">Steel Tank Fabrication</router-link></li>
+      <li><router-link to="/projects#solar-pump">Solar Pump Installation</router-link></li>
       <li><router-link to="/projects">View All Projects</router-link></li>
     </ul>
 
@@ -59,10 +62,18 @@
         <svg viewBox="0 0 24 24" width="18" height="18">
           <path fill="currentColor" d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0zm-9 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
         </svg>
-        <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-          <span itemprop="streetAddress">P.O BOX 82-40100 Paw Akuche</span>,
-          <span itemprop="addressLocality">Along Kisumu Rd, Opp. Torly’s Hotel</span>,
-          <span itemprop="addressCountry">KE</span>
+        <span class="office-line" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          <span class="office-label">OYUGIS OFFICE</span>
+          <span itemprop="addressLocality">Kisumu - Kisii Road, Opp. Torley's Hotel</span>
+        </span>
+      </p>
+      <p class="contact-line">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path fill="currentColor" d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0zm-9 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+        <span class="office-line" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          <span class="office-label">KONDELE OFFICE</span>
+          <span itemprop="addressLocality">Kondele - Kibos Road, Sansport Door No. 4</span>
         </span>
       </p>
 
@@ -81,10 +92,36 @@
       </p>
 
       <div class="socials">
-        <a href="#" aria-label="TikTok"><font-awesome-icon :icon="['fab','tiktok']" /></a>
-        <a href="#" aria-label="Facebook"><font-awesome-icon :icon="['fab','facebook-f']" /></a>
-        <a href="#" aria-label="YouTube"><font-awesome-icon :icon="['fab','youtube']" /></a>
-        <a :href="whatsappUrl" aria-label="WhatsApp"><font-awesome-icon :icon="['fab','whatsapp']" /></a>
+        <a
+          href="#"
+          aria-label="TikTok"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','tiktok']" /></a>
+        <a
+          href="#"
+          aria-label="Facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','facebook-f']" /></a>
+        <a
+          href="#"
+          aria-label="Instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','instagram']" /></a>
+        <a
+          href="#"
+          aria-label="YouTube"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','youtube']" /></a>
+        <a
+          href="#"
+          aria-label="LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><font-awesome-icon :icon="['fab','linkedin-in']" /></a>
       </div>
     </address>
   </section>
@@ -100,16 +137,12 @@ export default {
     mainPhone: { type: String, default: "+254722146077" },
     secondaryPhone: { type: String, default: "+254721957386" },
     email: { type: String, default: "info@kevinodrilling.co.ke" },
-    whatsapp: { type: String, default: "254722146077" },
     whatsappText: { type: String, default: "Hi! I’d like to know more about your services." }
   },
   computed: {
     year() {
       return new Date().getFullYear();
     },
-    whatsappUrl() {
-      return `https://wa.me/${this.whatsapp}?text=${encodeURIComponent(this.whatsappText)}`;
-    }
   }
 };
 </script>
@@ -117,7 +150,7 @@ export default {
 <style scoped>
 /* --- (SAME optimized styling from File 1, unchanged) --- */
 
-site-footer {
+.site-footer {
   background: #0a1f3f;
   color: #e6eefc;
   border-top: 1px solid rgba(255,255,255,0.08);
@@ -199,10 +232,20 @@ site-footer {
 /* Contact */
 .contact-line {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin: 6px 0;
   color: #d8e4fb;
+}
+
+.office-line {
+  display: grid;
+  gap: 2px;
+}
+
+.office-label {
+  font-weight: 700;
+  color: #ffffff;
 }
 
 /* Socials */

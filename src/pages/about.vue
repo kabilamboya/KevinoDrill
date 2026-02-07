@@ -23,10 +23,34 @@
     <h2 class="tabs-heading">Who We Are</h2>
 
     <div class="tabs-container">
-      <div class="tabs-buttons">
-        <button @click="setTab('mission')" :class="tabClass('mission')">Our Mission</button>
-        <button @click="setTab('vision')" :class="tabClass('vision')">Our Vision</button>
-        <button @click="setTab('values')" :class="tabClass('values')">Core Values</button>
+      <div class="tabs-buttons" role="tablist" aria-label="Mission and vision tabs">
+        <button
+          type="button"
+          role="tab"
+          :aria-selected="activeTab === 'mission'"
+          @click="setTab('mission')"
+          :class="tabClass('mission')"
+        >
+          Our Mission
+        </button>
+        <button
+          type="button"
+          role="tab"
+          :aria-selected="activeTab === 'vision'"
+          @click="setTab('vision')"
+          :class="tabClass('vision')"
+        >
+          Our Vision
+        </button>
+        <button
+          type="button"
+          role="tab"
+          :aria-selected="activeTab === 'values'"
+          @click="setTab('values')"
+          :class="tabClass('values')"
+        >
+          Core Values
+        </button>
       </div>
 
       <div class="mission-vision-values">
@@ -330,9 +354,10 @@ const icons = {
 
 .team-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2.2rem;
+  grid-template-columns: minmax(260px, 1.05fr) minmax(260px, 0.95fr) minmax(260px, 1fr);
+  gap: 2rem;
   margin-top: 1.5rem;
+  align-items: start;
 }
 
 .team-image {
@@ -340,6 +365,19 @@ const icons = {
   height: 420px;
   object-fit: cover;
   border-radius: 1rem;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+}
+
+.about-content,
+.team-extra {
+  background: #ffffff;
+  padding: 1.6rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 26px rgba(2,12,27,0.06);
+}
+
+.team-extra {
+  background: #f9fafb;
 }
 
 .about-content h3 {
@@ -360,15 +398,31 @@ const icons = {
   border-radius: 1rem;
 }
 
+.team-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
 
 /* RESPONSIVE TEAM GRID */
-@media (max-width: 950px) {
+@media (max-width: 1100px) {
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .team-extra {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 750px) {
   .team-grid {
     grid-template-columns: 1fr;
     text-align: center;
   }
   .team-image {
-    height: 350px;
+    height: 340px;
   }
 }
 

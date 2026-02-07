@@ -95,8 +95,9 @@ import { ref, computed, inject } from "vue";
 import services, { counties } from "@/data/estimateData";
 import useEstimateCalculator from "@/composables/useEstimateCalculator";
 import jsPDF from "jspdf";
+import logo from "@/assets/kevinlogo.jpg"
 
-const toast = inject("toast");   // ✅ Inject toast ONCE here
+const showToast = inject("showToast")   // ✅ Inject toast ONCE here
 
 /* --------------------- STATE --------------------- */
 const isOpen = ref(false);
@@ -130,58 +131,128 @@ const summary = computed(() =>
     : { total: 0, breakdown: {} }
 );
 
+const logoDataUrl = ref("")
+
+const loadLogoDataUrl = async () => {
+  if (logoDataUrl.value) return logoDataUrl.value
+  const response = await fetch(logo)
+  const blob = await response.blob()
+  const dataUrl = await new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.readAsDataURL(blob)
+  })
+  logoDataUrl.value = dataUrl
+  return dataUrl
+}
+
 const formatCurrency = (v) =>
   "KES " + Number(v).toLocaleString("en-KE", { minimumFractionDigits: 0 });
 
 /* ---------------- PDF GENERATION + TOAST ---------------- */
-const generatePDF = () => {
-  const doc = new jsPDF();
-  let y = 10;
+const generatePDF = async () => {
+  const doc = new jsPDF()
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const margin = 14
+  const sectionGap = 8
+  let y = 16
 
-  doc.setFontSize(18);
-  doc.text("Kevino Drilling & Construction Ltd", 10, y);
-  y += 10;
+  const { breakdown, total } = summary.value
+  const today = new Date().toLocaleDateString("en-KE")
 
-  doc.setFontSize(14);
-  doc.text("Estimate Report", 10, y);
-  y += 10;
+  // Header band
+  doc.setFillColor(13, 110, 253)
+  doc.rect(0, 0, pageWidth, 20, "F")
+  doc.setTextColor(255, 255, 255)
+  doc.setFontSize(16)
+  doc.text("Kevino Drilling & Construction Ltd", margin, 13)
 
-  doc.setFontSize(12);
-  doc.text(`Client Name: ${form.value.name}`, 10, y); y += 8;
-  doc.text(`Phone: ${form.value.phone}`, 10, y); y += 8;
-  doc.text(`County: ${form.value.county}`, 10, y); y += 8;
+  const logoUrl = await loadLogoDataUrl()
+  const logoSize = 16
+  const logoX = pageWidth - margin - logoSize
+  const logoY = 2
+  doc.addImage(logoUrl, "JPEG", logoX, logoY, logoSize, logoSize)
 
-  y += 4;
-  doc.text(`Service Type: ${form.value.serviceType}`, 10, y); y += 8;
+  doc.setTextColor(0, 0, 0)
+  y = 30
+  doc.setFontSize(13)
+  doc.text("Estimate Report", margin, y)
 
+  doc.setFontSize(10)
+  doc.text(`Date: ${today}`, pageWidth - margin - 35, y)
+
+  y += sectionGap
+  doc.setDrawColor(220)
+  doc.line(margin, y, pageWidth - margin, y)
+  y += 6
+
+  // Client details
+  doc.setFontSize(11)
+  doc.text("Client Details", margin, y)
+  y += 6
+  doc.setFontSize(10)
+  doc.text(`Name: ${form.value.name}`, margin, y); y += 5
+  doc.text(`Phone: ${form.value.phone}`, margin, y); y += 5
+  doc.text(`County: ${form.value.county}`, margin, y); y += 6
+
+  // Service details
+  doc.setFontSize(11)
+  doc.text("Service Details", margin, y)
+  y += 6
+  doc.setFontSize(10)
+  doc.text(`Service Type: ${form.value.serviceType}`, margin, y); y += 5
   if (form.value.serviceOption) {
-    doc.text(`Service Option: ${form.value.serviceOption}`, 10, y); 
-    y += 8;
+    doc.text(`Service Option: ${form.value.serviceOption}`, margin, y); y += 5
   }
-
   if (form.value.depth) {
-    doc.text(`Depth: ${form.value.depth} meters`, 10, y); 
-    y += 8;
+    doc.text(`Depth: ${form.value.depth} meters`, margin, y); y += 5
   }
+  y += 4
 
-  y += 6;
-  doc.text("Cost Breakdown", 10, y); 
-  y += 8;
+  // Breakdown table header
+  doc.setFillColor(245, 247, 250)
+  doc.rect(margin, y, pageWidth - margin * 2, 8, "F")
+  doc.setFontSize(10)
+  doc.text("Item", margin + 2, y + 5.5)
+  doc.text("Amount (KES)", pageWidth - margin - 36, y + 5.5)
+  y += 10
 
-  Object.entries(summary.value.breakdown).forEach(([label, value]) => {
-    doc.text(`${label}: ${formatCurrency(value)}`, 10, y);
-    y += 7;
-  });
+  // Breakdown rows
+  doc.setFontSize(10)
+  Object.entries(breakdown).forEach(([label, value]) => {
+    doc.text(label, margin + 2, y)
+    doc.text(formatCurrency(value), pageWidth - margin - 36, y)
+    y += 6
+  })
 
-  y += 4;
-  doc.setFontSize(14);
-  doc.text(`TOTAL: ${formatCurrency(summary.value.total)}`, 10, y);
+  // Total box
+  y += 2
+  doc.setDrawColor(13, 110, 253)
+  doc.rect(margin, y, pageWidth - margin * 2, 10)
+  doc.setFontSize(11)
+  doc.text("Total Estimate", margin + 2, y + 6.5)
+  doc.text(formatCurrency(total), pageWidth - margin - 36, y + 6.5)
+  y += 14
 
-  doc.save("Estimate.pdf");
+  // Footer note
+  doc.setFontSize(9)
+  doc.setTextColor(80)
+  doc.text(
+    "This estimate is indicative and subject to site verification. Valid for 30 days.",
+    margin,
+    y
+  )
+  y += 6
+  doc.setTextColor(60)
+  doc.text("Phone: +254722146077 | Email: info@kevinodrilling.co.ke", margin, y)
+  y += 5
+  doc.text("Address: OYUGIS OFFICE, Kisumu - Kisii Road, Opp. Torley's Hotel", margin, y)
+
+  doc.save("Estimate.pdf")
 
   // SHOW TOAST
-  toast?.value?.showToast("Your estimate PDF has been downloaded successfully!");
-};
+  showToast?.("Your estimate PDF has been downloaded successfully!")
+}
 </script>
 
 <style scoped>

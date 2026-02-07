@@ -158,26 +158,23 @@ const resumeAutoplay = () => {
   if (props.pauseOnHover) isPaused.value = false
 }
 
+const onKey = (e) => {
+  if (e.key === 'ArrowRight') {
+    next()
+  } else if (e.key === 'ArrowLeft') {
+    prev()
+  }
+}
+
 onMounted(() => {
   startAutoplay()
-
-  // allow arrow keys left/right for navigation
-  const onKey = (e) => {
-    if (e.key === 'ArrowRight') {
-      next()
-    } else if (e.key === 'ArrowLeft') {
-      prev()
-    }
-  }
   window.addEventListener('keydown', onKey)
-
-  onBeforeUnmount(() => {
-    window.removeEventListener('keydown', onKey)
-    stopAutoplay()
-  })
 })
 
-onBeforeUnmount(() => stopAutoplay())
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKey)
+  stopAutoplay()
+})
 
 // restart autoplay when slides prop changes length
 watch(

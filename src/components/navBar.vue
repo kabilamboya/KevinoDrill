@@ -24,7 +24,7 @@
       </ul>
 
       <!-- DESKTOP CTA -->
-      <button class="cta desktop" @click="$emit('openEstimate')" aria-label="Get a Free Estimate">
+      <button class="cta desktop" @click="$emit('open-estimate')" aria-label="Get a Free Estimate">
         Get a Free Estimate
       </button>
 
@@ -44,11 +44,11 @@
     <transition name="slide">
       <div v-show="menuOpen" id="mobile-menu" class="mobile-menu" @keydown.esc.prevent="closeMenu">
         <ul class="nav-links mobile" role="menu">
-          <li role="none"><router-link role="menuitem" to="/" exact-active-class="active" @click.native="closeMenu">Home</router-link></li>
-          <li role="none"><router-link role="menuitem" to="/about" active-class="active" @click.native="closeMenu">About</router-link></li>
-          <li role="none"><router-link role="menuitem" to="/services" active-class="active" @click.native="closeMenu">Services</router-link></li>
-          <li role="none"><router-link role="menuitem" to="/projects" active-class="active" @click.native="closeMenu">Projects</router-link></li>
-          <li role="none"><router-link role="menuitem" to="/contact" active-class="active" @click.native="closeMenu">Contact</router-link></li>
+          <li role="none"><router-link role="menuitem" to="/" exact-active-class="active" @click="closeMenu">Home</router-link></li>
+          <li role="none"><router-link role="menuitem" to="/about" active-class="active" @click="closeMenu">About</router-link></li>
+          <li role="none"><router-link role="menuitem" to="/services" active-class="active" @click="closeMenu">Services</router-link></li>
+          <li role="none"><router-link role="menuitem" to="/projects" active-class="active" @click="closeMenu">Projects</router-link></li>
+          <li role="none"><router-link role="menuitem" to="/contact" active-class="active" @click="closeMenu">Contact</router-link></li>
         </ul>
 
         <button class="cta mobile" @click="onEstimateClick">Get a Free Estimate</button>
@@ -89,7 +89,7 @@ export default {
       document.body.style.overflow = "";
     },
     onEstimateClick() {
-      this.$emit("openEstimate");
+      this.$emit("open-estimate");
       this.closeMenu();
     },
     onScroll() {

@@ -27,9 +27,13 @@ function openGlobalModal() {
   estimateModal.value?.openForm()
 }
 
+function showGlobalToast(message) {
+  toastRef.value?.showToast(message)
+}
+
 // Makes modal globally available
 provide("openEstimateModal", openGlobalModal)
 
 // Makes toast globally available
-provide("toast", toastRef)
+provide("showToast", showGlobalToast)
 </script>

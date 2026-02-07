@@ -46,7 +46,7 @@
       <h3 class="tree-heading">Other Services</h3>
 
       <ul class="tree-list">
-        <li v-for="s in services.otherServices" :key="s.title">
+        <li v-for="s in services.otherServices" :id="s.id" :key="s.title">
           <span class="node-title">{{ s.title }}</span>
           <p class="node-desc">{{ s.description }}</p>
         </li>
@@ -74,7 +74,6 @@
     <!-- ================================= -->
     <section class="cta">
       <button @click="openEstimateModal" class="btn primary">Get a Free Estimate</button>
-      <button @click="openWhatsApp" class="btn whatsapp">WhatsApp Us</button>
     </section>
 
   </section>
@@ -83,16 +82,13 @@
 <script setup>
 import { inject } from "vue"
 
-import project1 from "@/assets/images/project1.jpg"
 import project2 from "@/assets/images/project2.jpg"
 import project3 from "@/assets/images/project3.jpg"
 import project4 from "@/assets/images/project4.jpg"
 import project5 from "@/assets/images/project5.jpg"
-import project6 from "@/assets/images/project6.jpg"
 
 // Inject global modal + toast
 const openEstimateModal = inject("openEstimateModal")
-const toast = inject("toast")
 
 // WhatsApp
 function openWhatsApp() {
@@ -134,12 +130,18 @@ const featured = [
 const services = {
   otherServices: [
     {
-      id: 1,
+      id: "construction",
       title: "Construction of Water Supply, Treatment, Storage, and Distribution Systems",
-      description: "we design and build customized systems to ensure efficient and sustainable water management, meeting the demands of communities, industries, and agricultural operations alike.",
+      description: "We design and build customized systems to ensure efficient and sustainable water management, meeting the demands of communities, industries, and agricultural operations alike.",
     },
     {
-      id: 4,
+      id: "rehabilitation",
+      title: "Borehole Rehabilitation",
+      description:
+        "Restoration and performance optimization of existing boreholes to improve yield and extend system life.",
+    },
+    {
+      id: "testing",
       title: "Water Testing",
       description:
         "Precision testing for safe water use. We offer comprehensive water testing services to assess quality, detect contaminants, and support sustainable water management solutions.",

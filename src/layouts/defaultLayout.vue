@@ -24,8 +24,8 @@ import Navbar from "@/components/navBar.vue"
 import Footer from "@/components/footer.vue"
 import FloatingActions from "@/components/floatingActions.vue"
 
-// RECEIVE openEstimate from App.vue
-const openEstimate = inject("openEstimate")
+// RECEIVE openEstimateModal from App.vue
+const openEstimate = inject("openEstimateModal")
 </script>
 
 <style scoped>

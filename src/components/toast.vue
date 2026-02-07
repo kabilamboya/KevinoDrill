@@ -11,14 +11,17 @@ import { ref } from "vue"
 
 const message = ref("")
 const visible = ref(false)
+const hideTimer = ref(null)
 
-function showToast(text) {
+function showToast(text, duration = 3000) {
   message.value = text
   visible.value = true
 
-  setTimeout(() => {
+  if (hideTimer.value) clearTimeout(hideTimer.value)
+  hideTimer.value = setTimeout(() => {
     visible.value = false
-  }, 3000)
+    hideTimer.value = null
+  }, duration)
 }
 
 defineExpose({ showToast })

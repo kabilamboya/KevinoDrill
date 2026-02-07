@@ -28,7 +28,7 @@
       <li
         v-for="(project, i) in recentProjects"
         :key="project.id || project.title || i"
-        class="card"
+        class="card" :id="project.slug"
         :style="{ animationDelay: `${i * 60}ms` }"
       >
         <!-- ONLY grid thumbnails open the lightbox (option A) -->
@@ -107,10 +107,8 @@ import { inject } from 'vue'
 
 // Inject global modal + toast
 const openEstimateModal = inject("openEstimateModal")
-const toast = inject("toast")
 
 // Lightbox component
-import Gestimate from '@/components/gestimate.vue'
 
 // Import images
 import s1 from '@/assets/images/service1.jpg'
@@ -135,6 +133,7 @@ const featured = {
 const recentProjects = ref([
   {
     id: 1,
+    slug: "steel-tank",
     title: "Steel tank fabrication",
     location: "Turkana",
     description:
@@ -145,6 +144,7 @@ const recentProjects = ref([
   },
   {
     id: 2,
+    slug: "solar-pump",
     title: "Solar water pump installation",
     location: "Nairobi county",
     description: "Energy-efficient solar-powered pumping system.",

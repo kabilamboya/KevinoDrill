@@ -106,7 +106,7 @@ export default {
 
   computed: {
     normalizedPhone() {
-      return this.phone;
+      return (this.phone || "").replace(/\s+/g, "");
     },
     whatsappUrl() {
       const text = encodeURIComponent(this.whatsappText);

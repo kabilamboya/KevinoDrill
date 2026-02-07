@@ -1,20 +1,26 @@
 
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../pages/home.vue';
-import About from '../pages/about.vue';
-import Services from '../pages/services.vue';
-import Projects from '../pages/projects.vue';
-import Contact from '../pages/contact.vue';
+import { createRouter, createWebHistory } from "vue-router"
+import Home from "../pages/home.vue"
+import About from "../pages/about.vue"
+import Services from "../pages/services.vue"
+import Projects from "../pages/projects.vue"
+import Contact from "../pages/contact.vue"
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
-  { path: '/services', component: Services },
-  { path: '/projects', component: Projects },
-  { path: '/contact', component: Contact }
-];
+  { path: "/", name: "home", component: Home },
+  { path: "/about", name: "about", component: About },
+  { path: "/services", name: "services", component: Services },
+  { path: "/projects", name: "projects", component: Projects },
+  { path: "/contact", name: "contact", component: Contact },
+]
 
 export default createRouter({
-  history: createWebHistory(),
-  routes
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
+  scrollBehavior(to) {
+    if (to.hash) {
+      return { el: to.hash, behavior: "smooth" }
+    }
+    return { top: 0 }
+  },
+})
